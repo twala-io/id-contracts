@@ -32,20 +32,19 @@ contract Keyholder {
         emit KeyAdded(actionKeyId, 2, 1);
     }
 
-    function addActionKey(address keyAddress, uint256 keyType) public returns (bool success) {
-        bytes32 actionKeyId = keccak256(abi.encodePacked(keyAddress));
-        require(keys[actionKeyId]._keyId != actionKeyId, "Key already exists");
-        if (keyAddress != address(this)) {
-            require(keyHasPurpose(keccak256(abi.encodePacked(keyAddress)), 1), "Sender does not have soul key");
+    function addKey(bytes32 keyId, uint256 keyPurpose, uint256 keyType) public returns(bool success) {
+        require(keys[keyId]._keyId != keyId, "Key already exists");
+        if (msg.sender != address(this)) {
+            require(keyHasPurpose(keccak256(abi.encodePacked(msg.sender)), 1), "Sender does not have soul key");
         }
 
-        keys[actionKeyId]._keyPurpose = 4;
-        keys[actionKeyId]._keyType = keyType;
-        keys[actionKeyId]._keyId = actionKeyId;
+        keys[keyId]._keyId = keyId;
+        keys[keyId]._keyPurpose = keyPurpose;
+        keys[keyId]._keyType = keyType;
 
-        keysByPurpose[4].push(actionKeyId);
+        keysByPurpose[keyPurpose].push(keyId);
 
-        emit KeyAdded(actionKeyId, 4, keyType);
+        emit KeyAdded(keyId, keyPurpose, keyType);
 
         return true;
     }
