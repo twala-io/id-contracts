@@ -21,7 +21,7 @@ interface IERC721Metadata is IERC721 {
     function symbol() external view returns (string memory);
 
     /**
-     * @dev Returns the metadata for `tokenId` token.
+     * @dev Returns the Uniform Resource Identifier (URI) for `tokenId` token.
      */
-    function tokenMetadata(bytes32 tokenId) external view returns (string memory);
+    function tokenURI(uint256 tokenId) external view returns (string memory);
 }
