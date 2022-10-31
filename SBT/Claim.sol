@@ -39,7 +39,7 @@ contract Claim is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
         override(ERC721, ERC721Enumerable)
         virtual
     {
-        require(from == address(0), "ERC721: Token transfer is blocked");   
+        require(from == address(0), "ERC721: token transfer is blocked");   
         super._beforeTokenTransfer(from, to, tokenId);  
     }
 
