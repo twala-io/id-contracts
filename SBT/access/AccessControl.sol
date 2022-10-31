@@ -37,12 +37,12 @@ import "../utils/introspection/ERC165.sol";
  * {revokeRole} functions. Each role has an associated admin role, and only
  * accounts that have a role's admin role can call {grantRole} and {revokeRole}.
  *
- * By default, the admin role for all roles is `DEFAULT_ADMIN_ROLE`, which means
+ * By default, the admin role for all roles is `ADMIN_ROLE`, which means
  * that only accounts with this role will be able to grant or revoke other
  * roles. More complex role relationships can be created by using
  * {_setRoleAdmin}.
  *
- * WARNING: The `DEFAULT_ADMIN_ROLE` is also its own admin: it has permission to
+ * WARNING: The `ADMIN_ROLE` is also its own admin: it has permission to
  * grant and revoke this role. Extra precautions should be taken to secure
  * accounts that have been granted it.
  */
@@ -54,7 +54,7 @@ abstract contract AccessControl is Context, IAccessControl, ERC165 {
 
     mapping(bytes32 => RoleData) private _roles;
 
-    bytes32 public constant DEFAULT_ADMIN_ROLE = 0x00;
+    bytes32 public constant ADMIN_ROLE = 0x00;
 
     /**
      * @dev Modifier that checks that an account has a specific role. Reverts
