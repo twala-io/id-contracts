@@ -14,7 +14,7 @@ contract Claim is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
     Counters.Counter private _tokenIdCounter;
 
     constructor() ERC721("Claim", "CLM") {
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(ISSUER_ROLE, msg.sender);
     }
 
@@ -27,11 +27,19 @@ contract Claim is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
 
     // The following functions are overrides required by Solidity.
 
+    // function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+    //     internal
+    //     override(ERC721, ERC721Enumerable)
+    // {
+    //     super._beforeTokenTransfer(from, to, tokenId);
+    // }
+
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)
         internal
         override(ERC721, ERC721Enumerable)
     {
-        super._beforeTokenTransfer(from, to, tokenId);
+        require(from == address(0), "ERC721: token transfer is blocked");   
+        super._beforeTokenTransfer(from, to, tokenId);  
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
