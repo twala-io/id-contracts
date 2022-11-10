@@ -15,7 +15,7 @@ contract Keyholder {
     mapping (bytes32 => Key) keys;
     mapping (uint256 => bytes32[]) keysByPurpose;
 
-    constructor(address actionKey) {
+    constructor(bytes32 claimKey, bytes32 actionKey) {
         // Soul Key
         bytes32 soulKeyId = keccak256(abi.encodePacked(msg.sender));
         keys[soulKeyId]._keyId = soulKeyId;
@@ -23,13 +23,20 @@ contract Keyholder {
         keys[soulKeyId]._keyType = 1;
         keysByPurpose[1].push(soulKeyId);
         emit KeyAdded(soulKeyId, 1, 1);
+        // Claim Key
+        bytes32 claimKeyId = claimKey;
+        keys[claimKeyId]._keyId = claimKeyId;
+        keys[claimKeyId]._keyPurpose = 2;
+        keys[claimKeyId]._keyType = 1;
+        keysByPurpose[2].push(claimKeyId);
+        emit KeyAdded(claimKeyId, 2, 1);
         // Action Key
-        bytes32 actionKeyId = keccak256(abi.encodePacked(actionKey));
+        bytes32 actionKeyId = actionKey;
         keys[actionKeyId]._keyId = actionKeyId;
-        keys[actionKeyId]._keyPurpose = 2;
+        keys[actionKeyId]._keyPurpose = 3;
         keys[actionKeyId]._keyType = 1;
-        keysByPurpose[2].push(actionKeyId);
-        emit KeyAdded(actionKeyId, 2, 1);
+        keysByPurpose[3].push(actionKeyId);
+        emit KeyAdded(actionKeyId, 3, 1);
     }
 
     function addKey(bytes32 keyId, uint256 keyPurpose, uint256 keyType) public returns(bool success) {
