@@ -5,24 +5,23 @@ import "./token/ERC721/ERC721.sol";
 import "./token/ERC721/extensions/ERC721Enumerable.sol";
 import "./token/ERC721/extensions/ERC721URIStorage.sol";
 import "./access/AccessControl.sol";
-import "./utils/Counters.sol";
 
 contract Claim is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
-    using Counters for Counters.Counter;
 
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
-    Counters.Counter private _tokenIdCounter;
 
     constructor() ERC721("Claim", "CLM") {
         _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(ISSUER_ROLE, msg.sender);
     }
 
-    function safeMint(address to, string memory uri) public onlyRole(ISSUER_ROLE) {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
+    function _baseURI() internal pure override returns (string memory) {
+        return "test.com/";
+    }
+
+    function safeMint(address to, uint256 index, string memory cid) public onlyRole(ISSUER_ROLE) {
+        _safeMint(to, index);
+        _setTokenURI(index, cid);
     }
 
     // The following functions are overrides required by Solidity.
