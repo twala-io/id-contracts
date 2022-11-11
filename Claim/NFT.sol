@@ -9,19 +9,25 @@ import "./access/AccessControl.sol";
 contract Claim is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
 
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
+    string private BASE_URI;
 
-    constructor() ERC721("Claim", "CLM") {
+    constructor(string memory baseURI) ERC721("Claim", "CLM") {
         _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(ISSUER_ROLE, msg.sender);
+        BASE_URI = baseURI;
     }
 
-    function _baseURI() internal pure override returns (string memory) {
-        return "test.com/";
+    function setBaseURI(string memory baseURI) public onlyRole(ADMIN_ROLE) {
+        BASE_URI = baseURI;
     }
 
-    function safeMint(address to, uint256 index, string memory cid) public onlyRole(ISSUER_ROLE) {
-        _safeMint(to, index);
-        _setTokenURI(index, cid);
+    function _baseURI() internal view override returns (string memory) {
+        return BASE_URI;
+    }
+
+    function safeMint(address to, uint256 tokenId, string memory tokenCid) public onlyRole(ISSUER_ROLE) {
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, tokenCid);
     }
 
     // The following functions are overrides required by Solidity.
