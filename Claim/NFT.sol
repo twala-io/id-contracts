@@ -21,6 +21,10 @@ contract Claim is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
         BASE_URI = baseURI;
     }
 
+    function getBaseURI() public view returns (string memory) {
+        return BASE_URI;
+    }
+
     function _baseURI() internal view override returns (string memory) {
         return BASE_URI;
     }

@@ -25,6 +25,10 @@ contract Claim is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
         return BASE_URI;
     }
 
+    function getBaseURI() public view returns (string memory) {
+        return BASE_URI;
+    }
+
     function safeMint(address to, uint256 tokenId, string memory tokenCid) public onlyRole(ISSUER_ROLE) {
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, tokenCid);
