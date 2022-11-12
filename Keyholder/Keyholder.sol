@@ -27,9 +27,9 @@ contract Keyholder {
         bytes32 claimKeyId = claimKey;
         keys[claimKeyId]._keyId = claimKeyId;
         keys[claimKeyId]._keyPurpose = 2;
-        keys[claimKeyId]._keyType = 1;
+        keys[claimKeyId]._keyType = 2;
         keysByPurpose[2].push(claimKeyId);
-        emit KeyAdded(claimKeyId, 2, 1);
+        emit KeyAdded(claimKeyId, 2, 2);
         // Action Key
         bytes32 actionKeyId = actionKey;
         keys[actionKeyId]._keyId = actionKeyId;
@@ -40,9 +40,9 @@ contract Keyholder {
     }
 
     function addKey(bytes32 keyId, uint256 keyPurpose, uint256 keyType) public returns(bool success) {
-        require(keys[keyId]._keyId != keyId, "Key already exists");
+        require(keys[keyId]._keyId != keyId, "ERC725: key already exists");
         if (msg.sender != address(this)) {
-            require(keyHasPurpose(keccak256(abi.encodePacked(msg.sender)), 1), "Sender does not have soul key");
+            require(keyHasPurpose(keccak256(abi.encodePacked(msg.sender)), 1), "ERC725: sender does not have soul key");
         }
 
         keys[keyId]._keyId = keyId;
