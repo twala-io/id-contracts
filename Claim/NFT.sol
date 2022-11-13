@@ -10,7 +10,7 @@ contract Claim is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
 
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
 
-    constructor() ERC721("Claim", "CLM") {
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) {
         _grantRole(ADMIN_ROLE, msg.sender);
         _grantRole(ISSUER_ROLE, msg.sender);
     }
